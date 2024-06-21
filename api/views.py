@@ -18,6 +18,8 @@ class UploadFileView(APIView) :
         file = request.FILES.get("file")
         if file :
             file_type = file.name.split(".")[-1]
+            if file_type not in ("docx" , "pptx" , "xlsx") :
+                return Response({"error" : " wrong file type "})
             print(request.user.id)
             serializer =  self.serializer_class(data = {'file' : file , 'file_type' : file_type , "user" : request.user.id})
             if serializer.is_valid() :
